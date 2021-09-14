@@ -1,0 +1,41 @@
+.uploadContainer {
+  background-color: white;
+  min-width: 520px;
+  min-height: 520px;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.uploadAreaImage {
+  border: none;
+  width: 85%;
+  height: 350px;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background-color: white;
+  border: 4px dashed #f0f1f1;
+  border-radius: 10px;
+}
+.upload {
+  display: none;
+}
+.uploadImage {
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
+}
+.uploadArea {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.uploadButton {
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 0.5rem 4rem;
+  background-color: var(--secondaryBrown);
+}
