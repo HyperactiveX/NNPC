@@ -1,12 +1,18 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styles from "../styles/Result.module.css";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
   const [status, setStatus] = useState("Ripe");
   const [confidentLevel, setConfidentLevel] = useState(100);
+
+  const fetchData = async () => {
+    const res = await axios.get("http://localhost:5000");
+    console.log(res.data);
+  };
 
   const statusColor = () => {
     switch (status.toLowerCase()) {
@@ -29,6 +35,11 @@ export default function Home() {
       return <span style={{ color: "green" }}>{confidentLevel}%</span>;
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  });
+
   return (
     <Fragment>
       <Layout>
