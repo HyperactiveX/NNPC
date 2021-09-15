@@ -8,7 +8,7 @@ app.config["DEBUG"] = True
 
 @app.route('/', methods=['GET'])
 def test():
-    return '''Test : success'''
+    return {'test' : 'success'}
 
 
 # A route to return all of the available entries in our catalog.
