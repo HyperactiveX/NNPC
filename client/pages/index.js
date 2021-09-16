@@ -2,16 +2,37 @@ import { Fragment, useState } from "react";
 import styles from "../styles/Home.module.css";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
   const image = "/images/uploadImage.svg";
   const [imagePath, setImagePath] = useState(image);
+  const [file, setFile] = useState("");
+  const api = "http://localhost:5000/api";
 
-  const validateFile = () => {
+  const sendFileToBackend = async () => {
+    // const res = await axios.get(api);
+    // console.log(res.data);
+    let formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await axios.get(api + "/uploadFile", {
+        params: { file: formData },
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const validateFile = async () => {
     var src = document.getElementById("upload").files[0];
     if (src) {
-      router.push("/result");
+      await sendFileToBackend();
+      // router.push("/result");
     } else {
       alert("Please upload a papaya image before proceed!");
     }
@@ -23,9 +44,10 @@ export default function Home() {
 
   const getImagePreview = () => {
     var src = URL.createObjectURL(document.getElementById("upload").files[0]);
-    console.log(src);
+    console.log(document.getElementById("upload").files[0]);
     if (src) {
       setImagePath(src);
+      setFile(document.getElementById("upload").files[0]);
     } else {
       setImagePath(image);
     }
