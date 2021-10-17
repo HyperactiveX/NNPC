@@ -16,13 +16,15 @@ export default function Home() {
     // console.log(res.data);
     let formData = new FormData();
     formData.append("file", file);
-
     try {
-      const res = await axios.get(api + "/uploadFile", {
-        params: { file: formData },
-        headers: { "Access-Control-Allow-Origin": "*" },
+      const res = await axios.post(api + "/uploadFile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Access-Control-Allow-Origin": "*",
+        },
       });
       console.log(res.data);
+      return res.data.payload;
     } catch (err) {
       console.log(err);
     }
@@ -31,8 +33,17 @@ export default function Home() {
   const validateFile = async () => {
     var src = document.getElementById("upload").files[0];
     if (src) {
-      await sendFileToBackend();
-      // router.push("/result");
+      let result = await sendFileToBackend();
+      // setTimeout(() => {
+      //   router.push({ pathname: "/result", query: result });
+      // }, 5000);
+      router.push({
+        pathname: "/result",
+        query: {
+          status: result.status,
+          confident_level: result.confident_level,
+        },
+      });
     } else {
       alert("Please upload a papaya image before proceed!");
     }

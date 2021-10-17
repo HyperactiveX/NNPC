@@ -5,8 +5,10 @@ import { useRouter } from "next/router";
 
 export default function Result() {
   const router = useRouter();
-  const [status, setStatus] = useState("Ripe");
-  const [confidentLevel, setConfidentLevel] = useState(100);
+  const [status, setStatus] = useState(router.query.status);
+  const [confidentLevel, setConfidentLevel] = useState(
+    router.query.confident_level * 100
+  );
 
   const statusColor = () => {
     switch (status.toLowerCase()) {
@@ -30,9 +32,7 @@ export default function Result() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  });
+  useEffect(() => {});
 
   return (
     <Fragment>
