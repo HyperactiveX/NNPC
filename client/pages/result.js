@@ -7,12 +7,12 @@ export default function Result() {
   const router = useRouter();
   const [status, setStatus] = useState(router.query.status);
   const [confidentLevel, setConfidentLevel] = useState(
-    router.query.confident_level * 100
+    parseFloat(router.query.confident_level)
   );
 
   const statusColor = () => {
     switch (status.toLowerCase()) {
-      case "underripe":
+      case "unripe":
         return <span style={{ color: "green" }}>{status}</span>;
       case "medium":
         return <span style={{ color: "#FCD404" }}>{status}</span>;

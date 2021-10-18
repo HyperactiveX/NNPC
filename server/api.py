@@ -16,7 +16,7 @@ def translate(x):
     return {
         0: 'ripe',
         1: 'medium',
-        2: 'underripe',
+        2: 'unripe',
         3: 'error'
     }.get(x, 3)
 
@@ -43,7 +43,7 @@ def predict():
     x = np.expand_dims(x, axis=0)
     images = np.vstack([x])
     classes = model.predict(images)
-    status = np.argmax(classes[0])
-    cl = str (classes[0, np.argmax(classes[0])])[:6]
-    return {'status' : translate(status), 'confident_level': cl}
+    score = tf.nn.softmax(classes[0])
+    cl = str (float(np.max(score))*100)[:5]
+    return {'status' : translate(np.argmax(classes[0])), 'confident_level': cl}
 app.run()
