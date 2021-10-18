@@ -12,18 +12,17 @@ export default function Home() {
   const api = "http://localhost:5000/api";
 
   const sendFileToBackend = async () => {
-    // const res = await axios.get(api);
-    // console.log(res.data);
     let formData = new FormData();
     formData.append("file", file);
     try {
+      checkLoading(true);
       const res = await axios.post(api + "/uploadFile", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Access-Control-Allow-Origin": "*",
         },
       });
-      console.log(res.data);
+      checkLoading(false);
       return res.data.payload;
     } catch (err) {
       console.log(err);
@@ -33,10 +32,8 @@ export default function Home() {
   const validateFile = async () => {
     var src = document.getElementById("upload").files[0];
     if (src) {
+      // let result = await sendFileToBackend();
       let result = await sendFileToBackend();
-      // setTimeout(() => {
-      //   router.push({ pathname: "/result", query: result });
-      // }, 5000);
       router.push({
         pathname: "/result",
         query: {
@@ -64,10 +61,19 @@ export default function Home() {
     }
   };
 
+  const checkLoading = (loading) => {
+    if (loading) {
+      document.body.style.cursor = "wait";
+      document.getElementById("demo").style.cursor = "wait";
+    } else {
+      document.body.style.cursor = "default";
+    }
+  };
+
   return (
     <Fragment>
       <Layout>
-        <div className={styles.uploadContainer}>
+        <div className={styles.uploadContainer} id="demo">
           <div className={styles.uploadArea} onChange={() => getImagePreview()}>
             <button
               className={styles.uploadAreaImage}
