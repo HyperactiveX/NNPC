@@ -5,13 +5,12 @@ import { useRouter } from "next/router";
 
 export default function Result() {
   const router = useRouter();
-  const [status, setStatus] = useState(router.query.status);
-  const [confidentLevel, setConfidentLevel] = useState(
-    parseFloat(router.query.confident_level)
-  );
+  const [status, setStatus] = useState("error");
+  const [confidentLevel, setConfidentLevel] = useState(0.0);
 
   const statusColor = () => {
-    switch (status.toLowerCase()) {
+    let x = status.toLowerCase();
+    switch (x) {
       case "unripe":
         return <span style={{ color: "green" }}>{status}</span>;
       case "medium":
@@ -32,7 +31,10 @@ export default function Result() {
     }
   };
 
-  useEffect(() => {});
+  useEffect(() => {
+    setStatus(router.query.status);
+    setConfidentLevel(parseFloat(router.query.confident_level));
+  }, []);
 
   return (
     <Fragment>
