@@ -4,6 +4,6 @@
   },
   "scripts": {
     "dev": "concurrently \"cd client && npm run dev\" \"cd server && python3 api.py\"",
-    "deploy": "concurrently \"cd client && npm run dev\" \"cd server && python3 api.py\""
+    "deploy": "concurrently \"cd client && npm run start\" \"cd server && python3 api.py\""
   }
 }
