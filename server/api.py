@@ -37,13 +37,12 @@ def upload_file():
     return {'payload' : result}
 
 def predict():
-    model = tf.keras.models.load_model('papaya.h5')
-    img = image.load_img('./static/temp.png', target_size=(128, 128))
-    x = image.img_to_array(img)
+    model = tf.keras.models.load_model('papayaV5.h5')
+    img = image.load_img('./static/temp.png', target_size=(128, 128, 3))
+    x = image.img_to_array(img) / 255.0
     x = np.expand_dims(x, axis=0)
     images = np.vstack([x])
     classes = model.predict(images)
-    score = tf.nn.softmax(classes[0])
-    cl = str (float(np.max(score))*100)[:5]
+    cl = str (float(np.max(classes[0]))*100)[:5]
     return {'status' : translate(np.argmax(classes[0])), 'confident_level': cl}
 app.run()
